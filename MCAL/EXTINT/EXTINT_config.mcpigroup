@@ -1,0 +1,6 @@
+[PROJECTS]
+Count=2
+Project0=..\..\LEDsBlinking.mcppi
+Project1=..\..\InterruptTask.mcppi
+[ActiveProject]
+Index=1

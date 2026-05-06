@@ -1,0 +1,68 @@
+name: Layer Check & Build
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+
+  push:
+    branches: [main]
+
+jobs:
+  build-and-check:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Checkout code
+      - uses: actions/checkout@v3
+
+      # Step 2: Setup build environment
+      - name: Set up environment
+        run: sudo apt-get update && sudo apt-get install -y build-essential
+
+      # Step 3: Layer structure and include checks
+      - name: Check Layer Structure and Includes
+        run: |
+          echo "Checking Layer Architecture..."
+
+          # Find folders case-insensitive, take the first match
+          APP_DIR=$(find . -type d \( -iname "app" -o -iname "application" \) | head -n 1)
+          HAL_DIR=$(find . -type d -iname "hal" | head -n 1)
+          MCAL_DIR=$(find . -type d -iname "mcal" | head -n 1)
+
+          # Check if each folder exists
+          if [ -z "$APP_DIR" ]; then
+            echo " ERROR: APP/Application folder not found!"
+            exit 1
+          fi
+          if [ -z "$HAL_DIR" ]; then
+            echo " ERROR: HAL folder not found!"
+            exit 1
+          fi
+          if [ -z "$MCAL_DIR" ]; then
+            echo " ERROR: MCAL folder not found!"
+            exit 1
+          fi
+
+          echo "All required layers found:"
+          echo "APP: $APP_DIR"
+          echo "HAL: $HAL_DIR"
+          echo "MCAL: $MCAL_DIR"
+
+          # Enforce Layer Rules
+          if grep -rni -i '#include *["<]hal' "$MCAL_DIR"; then
+            echo " ERROR: MCAL layer must NOT include HAL directly!"
+            exit 1
+          fi
+          if grep -rni -i '#include *["<]app' "$MCAL_DIR"; then
+            echo " ERROR: MCAL layer must NOT include APP directly!"
+            exit 1
+          fi
+
+          echo "Layer checks passed successfully"
+
+      # Step 4: Compile all C files (syntax only)
+      - name: Compile all C files (syntax check)
+        run: |
+          echo "Compiling all .c files for syntax check..."
+          find . -name "*.c" -print | xargs gcc -Wall -Wextra -fsyntax-only
+          echo "Compilation successful"

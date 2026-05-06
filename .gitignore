@@ -1,0 +1,20 @@
+# MikroC build files
+*.asm
+*.cp
+*.mcl
+*.hex
+*.lst
+*.log
+*.bmk
+*.dct
+*.dbg
+*.dbt
+*.dlt
+*.mcppi
+*.user.dic
+*.callertable.txt
+*.ini
+
+# OS files
+.DS_Store
+Thumbs.db
