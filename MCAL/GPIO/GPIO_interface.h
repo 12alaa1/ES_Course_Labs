@@ -21,6 +21,7 @@
 #define GPIO_PIN7    7
 
 /* Direction */
+<<<<<<< HEAD
 #define OUTPUT  0
 #define INPUT   1
 
@@ -34,6 +35,18 @@ u8   GetPinValue(u8 Port, u8 Pin);
 void SetPortDirection(u8 Port, u8 Direction);
 void SetPortValue(u8 Port, u8 Value);
 u8   GetPortValue(u8 Port);
+=======
+#define GPIO_OUTPUT  0
+#define GPIO_INPUT   1
+
+/* Values */
+#define GPIO_LOW     0
+#define GPIO_HIGH    1
+
+void GPIO_SetPinDirection(u8 Port, u8 Pin, u8 Direction);
+void GPIO_SetPinValue(u8 Port, u8 Pin, u8 Value);
+u8   GPIO_GetPinValue(u8 Port, u8 Pin);
+>>>>>>> f5b011729a733c9d044c8c5c27d98ca2384f78e6
 void GPIO_Init(void);
 
 #endif

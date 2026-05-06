@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 #include "../SERVICES/STD_TYPES.h"
 #include "../SERVICES/BIT_MATH.h"
 #include "../HAL/LED/LED_interface.h"
@@ -57,3 +58,32 @@ int main(void)
 
     return 0;
 }
+=======
+/*
+* APPLICATION LAYER
+
+
+*/
+#include "../HAL/LED/LED_interface.h"
+#include "../MCAL/GPIO/GPIO_interface.h"
+
+void delay(void)
+{
+    unsigned int i;
+    for(i = 0; i < 50000; i++);
+}
+
+void main()
+{
+    LED_Init(GPIO_PORTB, GPIO_PIN0);
+
+    while(1)
+    {
+        LED_On(GPIO_PORTB, GPIO_PIN0);
+        delay();
+
+        LED_Off(GPIO_PORTB, GPIO_PIN0);
+        delay();
+    }
+}
+>>>>>>> f5b011729a733c9d044c8c5c27d98ca2384f78e6
